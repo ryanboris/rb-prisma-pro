@@ -5,17 +5,43 @@ const prisma = new Prisma({
     endpoint: 'http://localhost:4466'
 })
 
-// TODO:     prisma.query
+// 1. Create a new post
+// 2. Fetch all the info about the user(author)
 
-// prisma.query
-//     .users(null, '{ id name posts { id title body } }')
-//     .then(data => console.log('Users: ', JSON.stringify(data, undefined, 4)))
-//     .catch(err => console.error(err))
+const createPostForUser = async (authorId, data) => {
+    const post = await prisma.mutation.createPost(
+        {
+            data: {
+                ...data,
+                author: {
+                    connect: {
+                        id: authorId
+                    }
+                }
+            }
+        },
+        '{ id }'
+    )
 
-// prisma.query
-//     .comments(null, '{ id text author { id name }}')
-//     .then(data => console.log('Comments: ', JSON.stringify(data, undefined, 4)))
-//     .catch(err => console.error(err))
+    const user = await prisma.query.user(
+        {
+            where: {
+                id: authorId
+            }
+        },
+        '{ id name email posts { id title body published } }'
+    )
+
+    return user
+}
+
+createPostForUser('cjq2hnylg000n0a52tqvoeejz', {
+    title: 'my note',
+    body: 'my body',
+    published: false
+})
+    .then(user => console.log(JSON.stringify(user, undefined, 4)))
+    .catch(e => console.error(e))
 
 // prisma.mutation
 //     .createPost(
