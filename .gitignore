@@ -3,3 +3,4 @@ node_modules/
 .graphqlconfig
 prismarb/
 db.js
+.DS_Store
