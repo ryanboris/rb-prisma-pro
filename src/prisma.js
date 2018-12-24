@@ -42,22 +42,22 @@ const prisma = new Prisma({
 //     })
 //     .catch(err => console.error(err))
 
-prisma.mutation
-    .updatePost(
-        {
-            where: {
-                id: 'cjq2pmwco00110a52fs8zph0j'
-            },
-            data: {
-                title: 'My Title is a new title',
-                body: 'My body has been updated'
-            }
-        },
-        '{ id title body published }'
-    )
-    .then(data => {
-        console.log(data)
-        return prisma.query.posts(null, '{ id title body published }')
-    })
-    .then(data => console.log(JSON.stringify(data, undefined, 4)))
-    .catch(e => console.log(e))
+// prisma.mutation
+//     .updatePost(
+//         {
+//             where: {
+//                 id: 'cjq2pmwco00110a52fs8zph0j'
+//             },
+//             data: {
+//                 title: 'My Title is a new title',
+//                 body: 'My body has been updated'
+//             }
+//         },
+//         '{ id title body published }'
+//     )
+//     .then(data => {
+//         console.log(data)
+//         return prisma.query.posts(null, '{ id title body published }')
+//     })
+//     .then(data => console.log(JSON.stringify(data, undefined, 4)))
+//     .catch(e => console.log(e))
