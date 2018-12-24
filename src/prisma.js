@@ -35,13 +35,13 @@ const createPostForUser = async (authorId, data) => {
     return user
 }
 
-createPostForUser('cjq2hnylg000n0a52tqvoeejz', {
-    title: 'my note',
-    body: 'my body',
-    published: false
-})
-    .then(user => console.log(JSON.stringify(user, undefined, 4)))
-    .catch(e => console.error(e))
+// createPostForUser('cjq2hnylg000n0a52tqvoeejz', {
+//     title: 'my note',
+//     body: 'my body',
+//     published: false
+// })
+//     .then(user => console.log(JSON.stringify(user, undefined, 4)))
+//     .catch(e => console.error(e))
 
 // prisma.mutation
 //     .createPost(
@@ -87,3 +87,40 @@ createPostForUser('cjq2hnylg000n0a52tqvoeejz', {
 //     })
 //     .then(data => console.log(JSON.stringify(data, undefined, 4)))
 //     .catch(e => console.log(e))
+
+const updatePostForUser = async (postId, data) => {
+    const post = await prisma.mutation.updatePost(
+        {
+            where: {
+                id: postId
+            },
+
+            data: {
+                ...data
+            }
+        },
+        '{ author { id } }'
+    )
+
+    const updatedPost = await prisma.query.post(
+        {
+            where: {
+                id: postId
+            }
+        },
+        '{ author { id name email } title body published }'
+    )
+
+    return updatedPost
+}
+
+updatePostForUser('cjq2pgki0000t0a52nblfql5r', {
+    title: 'YASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSs',
+    body: 'I HAZ UPDATE!!!!!'
+})
+    .then(updatedPost => {
+        console.log(updatedPost)
+        return prisma.query.posts(null, '{title body published}')
+    })
+    .then(posts => console.log(JSON.stringify(posts, undefined, 4)))
+    .catch(e => console.error(e))
