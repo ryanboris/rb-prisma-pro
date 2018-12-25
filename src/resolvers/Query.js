@@ -1,3 +1,5 @@
+import colors from 'colors'
+
 const Query = {
     posts(parent, args, { db, prisma }, info) {
         return prisma.query.posts(info)
