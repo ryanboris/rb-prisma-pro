@@ -1,16 +1,48 @@
-import colors from 'colors'
-
 const Query = {
     posts(parent, args, { db, prisma }, info) {
-        return prisma.query.posts(info)
+        const opArgs = {}
+        if (args.query) {
+            opArgs.where = {
+                OR: [
+                    {
+                        title_contains: args.query
+                    },
+
+                    {
+                        body_contains: args.query
+                    }
+                ]
+            }
+        }
+        return prisma.query.posts(opArgs, info)
     },
 
     users(parent, args, { db, prisma }, info) {
-        return prisma.query.users(info)
+        const opArgs = {}
+        if (args.query) {
+            opArgs.where = {
+                OR: [
+                    {
+                        name_contains: args.query
+                    },
+                    {
+                        email_contains: args.query
+                    }
+                ]
+            }
+        }
+        return prisma.query.users(opArgs, info)
     },
 
     comments(parent, args, { db, prisma }, info) {
-        return prisma.query.comments(info)
+        const opArgs = {}
+
+        if (args.query) {
+            opArgs.where = {
+                text_contains: args.query
+            }
+        }
+        return prisma.query.comments(opArgs, info)
     }
 }
 
