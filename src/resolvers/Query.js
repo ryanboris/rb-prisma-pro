@@ -1,5 +1,5 @@
 const Query = {
-    posts(parent, args, { db, prisma }, info) {
+    posts(parent, args, { prisma }, info) {
         const opArgs = {}
         if (args.query) {
             opArgs.where = {
@@ -17,7 +17,7 @@ const Query = {
         return prisma.query.posts(opArgs, info)
     },
 
-    users(parent, args, { db, prisma }, info) {
+    users(parent, args, { prisma }, info) {
         const opArgs = {}
         if (args.query) {
             opArgs.where = {
@@ -34,15 +34,8 @@ const Query = {
         return prisma.query.users(opArgs, info)
     },
 
-    comments(parent, args, { db, prisma }, info) {
-        const opArgs = {}
-
-        if (args.query) {
-            opArgs.where = {
-                text_contains: args.query
-            }
-        }
-        return prisma.query.comments(opArgs, info)
+    comments(parent, args, { prisma }, info) {
+        return prisma.query.comments(null, info)
     }
 }
 

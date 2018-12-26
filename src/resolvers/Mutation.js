@@ -1,45 +1,31 @@
 import uuidv4 from 'uuid/v4'
-import { NoUnusedFragmentsRule } from 'graphql'
-import { cpus } from 'os'
 
 const Mutation = {
-    createUser(parent, args, { db }, info) {
-        const emailTaken = db.users.some(user => user.email === args.data.email)
+    async createUser(parent, { data }, { prisma }, info) {
+        const emailTaken = await prisma.exists.User({ email: data.email })
+
         if (emailTaken) {
-            throw new Error(
-                'That email address is taken.  Please try again, with another email.'
-            )
+            throw new Error('Email exists.')
         }
 
-        const user = {
-            id: uuidv4(),
-            ...args.data
-        }
-
-        db.users.push(user)
-        return user
+        return prisma.mutation.createUser({ data }, info)
     },
 
-    deleteUser(parent, args, { db }, info) {
-        const userIndex = db.users.findIndex(user => user.id === args.id)
-        if (userIndex === -1) {
-            throw new Error('User not found.')
+    async deleteUser(parent, args, { prisma }, info) {
+        const userExists = await prisma.exists.User({ id: args.id })
+
+        if (!userExists) {
+            throw new Error('User does not exists.')
         }
 
-        const deletedUsers = db.users.splice(userIndex, 1)
-
-        db.posts = db.posts.filter(post => {
-            if (post.author === args.id) {
-                db.comments = db.comments.filter(
-                    comment => comment.post !== post.id
-                )
-            }
-            return !match
-        })
-
-        db.comments = db.comments.filter(comment => comment.author !== args.id)
-
-        return deletedUsers[0]
+        return prisma.mutation.deleteUser(
+            {
+                where: {
+                    id: args.id
+                }
+            },
+            info
+        )
     },
 
     updateUser(parent, args, { db }, info) {
