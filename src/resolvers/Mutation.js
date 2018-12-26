@@ -28,60 +28,30 @@ const Mutation = {
         )
     },
 
-    updateUser(parent, args, { db }, info) {
-        const user = db.users.find(user => user.id === args.id)
+    async updateUser(parent, { id }, { prisma }, info) {
+        const userExists = await prisma.exists.User({ id })
 
-        if (!user) {
-            throw new Error('User not found.')
+        if (!userExists) {
+            throw new Error('User does not exist.')
         }
 
-        if (typeof args.data.email === 'string') {
-            const emailTaken = db.users.some(
-                user => user.email === args.data.email
-            )
-
-            if (emailTaken) {
-                throw new Error(
-                    'Email is already taken. Please use a different email.'
-                )
-            }
-
-            user.email = args.data.email
-        }
-
-        if (typeof args.data.name === 'string') {
-            user.name = args.data.name
-        }
-
-        if (typeof args.data.age !== 'undefined') {
-            user.age = args.data.age
-        }
-
-        return user
+        return prisma.mutation.updateUser(
+            {
+                where: {
+                    id
+                }
+            },
+            info
+        )
     },
-    createPost(parent, args, { db, pubsub }, info) {
-        const userExists = db.users.some(user => user.id === args.data.author)
+    async createPost(parent, { data }, { prisma }, info) {
+        const userExists = await prisma.exists.User({ id: data.author })
+
         if (!userExists) {
             throw new Error('User not found.')
         }
 
-        const post = {
-            id: uuidv4(),
-            ...args.data
-        }
-
-        db.posts.push(post)
-
-        if (args.data.published) {
-            pubsub.publish('post', {
-                post: {
-                    mutation: 'CREATED',
-                    data: post
-                }
-            })
-        }
-
-        return post
+        return prisma.mutation.createPost({ data }, info)
     },
 
     deletePost(parent, args, { db, pubsub }, info) {
