@@ -28,8 +28,8 @@ const Mutation = {
         )
     },
 
-    async updateUser(parent, { id }, { prisma }, info) {
-        const userExists = await prisma.exists.User({ id })
+    async updateUser(parent, args, { prisma }, info) {
+        const userExists = await prisma.exists.User({ id: args.id })
 
         if (!userExists) {
             throw new Error('User does not exist.')
@@ -38,42 +38,40 @@ const Mutation = {
         return prisma.mutation.updateUser(
             {
                 where: {
-                    id
+                    id: args.id
+                },
+                data: args.data
+            },
+            info
+        )
+    },
+    async createPost(parent, args, { prisma }, info) {
+        return prisma.mutation.createPost(
+            {
+                data: {
+                    title: args.data.title,
+                    body: args.data.body,
+                    published: args.data.published,
+                    author: {
+                        connect: {
+                            id: args.data.author
+                        }
+                    }
                 }
             },
             info
         )
     },
-    async createPost(parent, { data }, { prisma }, info) {
-        const userExists = await prisma.exists.User({ id: data.author })
 
-        if (!userExists) {
-            throw new Error('User not found.')
-        }
-
-        return prisma.mutation.createPost({ data }, info)
-    },
-
-    deletePost(parent, args, { db, pubsub }, info) {
-        const postIndex = db.posts.findIndex(post => post.id === args.id)
-
-        if (postIndex === -1) {
-            throw new Error('Post not found.')
-        }
-
-        const [post] = db.posts.splice(postIndex, 1)
-
-        db.comments = db.comments.filter(comment => comment.post !== args.id)
-
-        if (post.published) {
-            pubsub.publish('post', {
-                post: {
-                    mutation: 'DELETED',
-                    data: post
+    deletePost(parent, args, { prisma }, info) {
+        return prisma.mutation.deletePost(
+            {
+                where: {
+                    id: args.id
                 }
-            })
-        }
-        return post
+            },
+            info
+        )
     },
 
     updatePost(parent, { id, data }, { db, pubsub }, info) {
