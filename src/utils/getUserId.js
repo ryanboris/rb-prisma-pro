@@ -1,7 +1,4 @@
 import jwt from 'jsonwebtoken'
-require('dotenv').config({
-    path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env'
-})
 
 const getUserId = (request, requireAuth = true) => {
     const header = request.request
@@ -10,7 +7,7 @@ const getUserId = (request, requireAuth = true) => {
 
     if (header) {
         const token = header.replace('Bearer ', '')
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+        const decoded = jwt.verify(token, 'thisisasecret')
         return decoded.userId
     }
 

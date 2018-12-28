@@ -1,6 +1,3 @@
-require('dotenv').config({
-    path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env'
-})
 import bcrypt from 'bcryptjs'
 import getUserId from '../utils/getUserId'
 import generateToken from '../utils/generateToken'

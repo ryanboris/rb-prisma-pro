@@ -1,7 +1,4 @@
 import '@babel/polyfill'
-require('dotenv').config({
-    path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env'
-})
 import { GraphQLServer, PubSub } from 'graphql-yoga'
 import { resolvers, fragmentReplacements } from './resolvers/index'
 import prisma from './prisma'

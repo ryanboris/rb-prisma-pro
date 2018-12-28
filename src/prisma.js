@@ -1,13 +1,10 @@
-require('dotenv').config({
-    path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env'
-})
 import { Prisma } from 'prisma-binding'
 import { fragmentReplacements } from './resolvers/index'
 
 const prisma = new Prisma({
     typeDefs: 'src/generated/prisma.graphql',
     endpoint: process.env.PRISMA_ENDPOINT,
-    secret: process.env.PRISMA_SECRET,
+    secret: 'ds3jlklsjdfep9ef9jfl3k3jl4jf',
     fragmentReplacements
 })
 
