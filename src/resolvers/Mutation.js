@@ -25,16 +25,16 @@ const Mutation = {
         }
     },
 
-    async loginUser(parent, { data }, { prisma }, info) {
+    async loginUser(parent, args, { prisma }, info) {
         const user = await prisma.query.user({
-            where: { email: data.email }
+            where: { email: args.data.email }
         })
 
         if (!user) {
             throw new Error('Unable to login.')
         }
 
-        const isMatch = await bcrypt.compare(data.password, user.password)
+        const isMatch = await bcrypt.compare(args.data.password, user.password)
 
         if (!isMatch) {
             throw new Error('Unable to login.')
@@ -141,10 +141,10 @@ const Mutation = {
         return prisma.mutation.createComment(
             {
                 data: {
-                    text,
+                    text: args.text,
                     post: {
                         connect: {
-                            id: post
+                            id: args.post
                         }
                     },
                     author: {
@@ -189,7 +189,7 @@ const Mutation = {
             }
         })
 
-        if (!postExists) {
+        if (!commentExists) {
             throw new Error('Operation failed.')
         }
 
@@ -198,7 +198,7 @@ const Mutation = {
                 where: {
                     id: userId
                 },
-                data
+                data: args.data
             },
             info
         )
