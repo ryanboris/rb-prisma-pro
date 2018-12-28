@@ -7,3 +7,5 @@ db.js
 */.env
 dev.env
 prod.env
+config/
+dist/
