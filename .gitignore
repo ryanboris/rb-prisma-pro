@@ -1,11 +1,4 @@
 node_modules/
-.babelrc
-.graphqlconfig
-prismarb/
-db.js
 .DS_Store
-*/.env
-dev.env
-prod.env
 config/
 dist/
