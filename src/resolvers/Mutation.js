@@ -112,14 +112,25 @@ const Mutation = {
         )
     },
 
-    async updatePost(parent, { data }, { prisma, request }, info) {
+    async updatePost(parent, args, { prisma, request }, info) {
         const userId = getUserId(request)
+        const postExists = await prisma.exists.Post({
+            id: args.id,
+            author: {
+                id: userId
+            }
+        })
+
+        if (!postExists) {
+            throw new Error('Operation failed.')
+        }
+
         return prisma.mutation.updatePost(
             {
                 where: {
-                    id: userId
+                    id: args.id
                 },
-                data
+                data: args.data
             },
             info
         )
@@ -171,6 +182,17 @@ const Mutation = {
 
     async updateComment(parent, args, { prisma, request }, info) {
         const userId = getUserId(request)
+        const commentExists = await prisma.exists.Comment({
+            id: args.id,
+            author: {
+                id: userId
+            }
+        })
+
+        if (!postExists) {
+            throw new Error('Operation failed.')
+        }
+
         return prisma.mutation.updateComment(
             {
                 where: {
