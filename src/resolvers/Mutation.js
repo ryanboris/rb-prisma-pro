@@ -1,9 +1,10 @@
-require('dotenv').config()
+require('dotenv').config({
+    path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env'
+})
 import bcrypt from 'bcryptjs'
 import getUserId from '../utils/getUserId'
 import generateToken from '../utils/generateToken'
 import hashPass from '../utils/hashPass'
-import { duplicateArgMessage } from 'graphql/validation/rules/UniqueArgumentNames'
 
 const Mutation = {
     async createUser(parent, args, { prisma }, info) {

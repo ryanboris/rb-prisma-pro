@@ -1,17 +1,17 @@
-require('dotenv').config({
-    path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env'
-})
-import { Prisma } from 'prisma-binding'
-import { fragmentReplacements } from './resolvers/index'
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.default = undefined;
 
-const prisma = new Prisma({
+
+var _prismaBinding = require('prisma-binding');
+var _index = require('./resolvers/index');require('dotenv').config({ path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env' });
+
+var prisma = new _prismaBinding.Prisma({
     typeDefs: 'src/generated/prisma.graphql',
     endpoint: process.env.PRISMA_ENDPOINT,
     secret: process.env.PRISMA_SECRET,
-    fragmentReplacements
-})
+    fragmentReplacements: _index.fragmentReplacements });exports.
 
-export { prisma as default }
+
+default = prisma;
 
 // const createPostForUser = async (authorId, data) => {
 //     const userExists = await prisma.exists.User({
