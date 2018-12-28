@@ -4,8 +4,7 @@
 
 var _graphqlYoga = require('graphql-yoga');
 var _index = require('./resolvers/index');
-var _prisma = require('./prisma');var _prisma2 = _interopRequireDefault(_prisma);
-var _url = require('url');function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}require('dotenv').config({ path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env' });
+var _prisma = require('./prisma');var _prisma2 = _interopRequireDefault(_prisma);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}require('dotenv').config({ path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env' });
 
 var pubsub = new _graphqlYoga.PubSub();
 
