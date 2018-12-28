@@ -141,10 +141,10 @@ const Mutation = {
         return prisma.mutation.createComment(
             {
                 data: {
-                    text: args.text,
+                    text: args.data.text,
                     post: {
                         connect: {
-                            id: args.post
+                            id: args.data.post
                         }
                     },
                     author: {
@@ -196,7 +196,7 @@ const Mutation = {
         return prisma.mutation.updateComment(
             {
                 where: {
-                    id: userId
+                    id: args.id
                 },
                 data: args.data
             },
