@@ -5,7 +5,6 @@ require('dotenv').config({
 import { GraphQLServer, PubSub } from 'graphql-yoga'
 import { resolvers, fragmentReplacements } from './resolvers/index'
 import prisma from './prisma'
-import { pathToFileURL } from 'url'
 
 const pubsub = new PubSub()
 
