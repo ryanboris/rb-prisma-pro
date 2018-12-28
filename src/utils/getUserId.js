@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken'
-require('dotenv').config()
+require('dotenv').config({
+    path: '/Users/rb/Documents/rb-prisma-pro/config/dev.env'
+})
 
 const getUserId = (request, requireAuth = true) => {
     const header = request.request
