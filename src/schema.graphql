@@ -87,6 +87,8 @@ type Post {
     published: Boolean
     author: User!
     comments: [Comment!]!
+    updatedAt: String!
+    createdAt: String!
 }
 
 type Comment {
@@ -94,6 +96,8 @@ type Comment {
     text: String!
     post: Post!
     author: User!
+    updatedAt: String!
+    createdAt: String!
 }
 
 enum MutationType {
