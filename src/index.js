@@ -1,3 +1,4 @@
+require('dotenv').config()
 import { GraphQLServer, PubSub } from 'graphql-yoga'
 import db from './db'
 import Query from './resolvers/Query'
@@ -20,10 +21,13 @@ const server = new GraphQLServer({
         User,
         Comment
     },
-    context: {
-        db,
-        pubsub,
-        prisma
+    context(request) {
+        return {
+            db,
+            pubsub,
+            prisma,
+            request
+        }
     }
 })
 

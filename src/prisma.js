@@ -1,9 +1,10 @@
+require('dotenv').config()
 import { Prisma } from 'prisma-binding'
 
 const prisma = new Prisma({
     typeDefs: 'src/generated/prisma.graphql',
     endpoint: 'http://localhost:4466',
-    secret: 'ds3jlklsjdfep9ef9jfl3k3jl4jf'
+    secret: process.env.PRISMA_SECRET
 })
 
 export { prisma as default }

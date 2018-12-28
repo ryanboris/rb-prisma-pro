@@ -17,6 +17,7 @@ type Mutation {
     createComment(data: CreateCommentInput!): Comment!
     deleteComment(id: ID!): Comment!
     updateComment(id: ID!, data: UpdateCommentInput): Comment!
+    loginUser(data: LoginUserInput!): AuthPayload!
 }
 
 type AuthPayload {
@@ -27,6 +28,11 @@ type AuthPayload {
 type Subscription {
     comment(postId: ID!): CommentSubscriptionPayload!
     post: PostSubscriptionPayload!
+}
+
+input LoginUserInput {
+    email: String!
+    password: String!
 }
 
 input CreateUserInput {
