@@ -2,5 +2,5 @@ import '@babel/polyfill/noConflict'
 import server from './server'
 
 server.start({ port: process.env.PORT || 4000 }, () => {
-    console.log('Server is running!')
+  console.log('Server is running!')
 })

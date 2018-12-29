@@ -7,12 +7,12 @@ import Comment from './Comment'
 import Subscription from './Subscription'
 
 const resolvers = {
-    Query,
-    Mutation,
-    Subscription,
-    Post,
-    User,
-    Comment
+  Query,
+  Mutation,
+  Subscription,
+  Post,
+  User,
+  Comment
 }
 
 const fragmentReplacements = extractFragmentReplacements(resolvers)
