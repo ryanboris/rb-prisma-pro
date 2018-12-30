@@ -1,3 +1,5 @@
-const Comment = {}
+const Comment = {
+
+}
 
 export { Comment as default }

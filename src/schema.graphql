@@ -1,54 +1,25 @@
 # import UserOrderByInput, PostOrderByInput, CommentOrderByInput from './generated/prisma.graphql'
 
 type Query {
-    users(
-        query: String
-        first: Int
-        skip: Int
-        after: String
-        orderBy: UserOrderByInput
-    ): [User!]!
-    posts(
-        query: String
-        first: Int
-        skip: Int
-        after: String
-        orderBy: PostOrderByInput
-    ): [Post!]!
-    myPosts(
-        query: String
-        first: Int
-        skip: Int
-        after: String
-        orderBy: PostOrderByInput
-    ): [Post!]!
-    comments(
-        first: Int
-        skip: Int
-        after: String
-        orderBy: CommentOrderByInput
-    ): [Comment!]!
+    users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
+    posts(query: String, first: Int, skip: Int, after: String, orderBy: PostOrderByInput): [Post!]!
+    myPosts(query: String, first: Int, skip: Int, after: String, orderBy: PostOrderByInput): [Post!]!
+    comments(first: Int, skip: Int, after: String, orderBy: CommentOrderByInput): [Comment!]!
     me: User!
     post(id: ID!): Post!
-    comment(id: ID!): Comment!
 }
 
 type Mutation {
     createUser(data: CreateUserInput!): AuthPayload!
+    login(data: LoginUserInput!): AuthPayload!
     deleteUser: User!
-    updateUser(data: UpdateUserInput): User!
+    updateUser(data: UpdateUserInput!): User!
     createPost(data: CreatePostInput!): Post!
     deletePost(id: ID!): Post!
-    updatePost(id: ID!, data: UpdatePostInput): Post!
+    updatePost(id: ID!, data: UpdatePostInput!): Post!
     createComment(data: CreateCommentInput!): Comment!
     deleteComment(id: ID!): Comment!
-    updateComment(id: ID!, data: UpdateCommentInput): Comment!
-    loginUser(data: LoginUserInput!): AuthPayload!
-}
-
-type AuthPayload {
-    token: String!
-    user: User!
+    updateComment(id: ID!, data: UpdateCommentInput!): Comment!
 }
 
 type Subscription {
@@ -57,13 +28,18 @@ type Subscription {
     myPost: PostSubscriptionPayload!
 }
 
-input LoginUserInput {
-    email: String!
-    password: String!
+type AuthPayload {
+    token: String!
+    user: User!
 }
 
 input CreateUserInput {
     name: String!
+    email: String!
+    password: String!
+}
+
+input LoginUserInput {
     email: String!
     password: String!
 }
@@ -73,6 +49,7 @@ input UpdateUserInput {
     email: String
     password: String
 }
+
 input CreatePostInput {
     title: String!
     body: String!
@@ -109,7 +86,7 @@ type Post {
     id: ID!
     title: String!
     body: String!
-    published: Boolean
+    published: Boolean!
     author: User!
     comments: [Comment!]!
     updatedAt: String!
@@ -119,8 +96,8 @@ type Post {
 type Comment {
     id: ID!
     text: String!
-    post: Post!
     author: User!
+    post: Post!
     updatedAt: String!
     createdAt: String!
 }

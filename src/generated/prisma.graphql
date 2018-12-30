@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Fri Dec 28 2018 14:59:08 GMT-0500 (Eastern Standard Time)
+# timestamp: Tue Aug 28 2018 14:47:32 GMT-0400 (Eastern Daylight Time)
 
 type AggregateComment {
   count: Int!
@@ -21,8 +21,8 @@ type BatchPayload {
 type Comment implements Node {
   id: ID!
   text: String!
-  post: Post!
-  author: User!
+  author(where: UserWhereInput): User!
+  post(where: PostWhereInput): Post!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -39,8 +39,8 @@ type CommentConnection {
 
 input CommentCreateInput {
   text: String!
-  post: PostCreateOneWithoutCommentsInput!
   author: UserCreateOneWithoutCommentsInput!
+  post: PostCreateOneWithoutCommentsInput!
 }
 
 input CommentCreateManyWithoutAuthorInput {
@@ -90,141 +90,6 @@ type CommentPreviousValues {
   createdAt: DateTime!
 }
 
-input CommentScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [CommentScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [CommentScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [CommentScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  text: String
-
-  """All values that are not equal to given value."""
-  text_not: String
-
-  """All values that are contained in given list."""
-  text_in: [String!]
-
-  """All values that are not contained in given list."""
-  text_not_in: [String!]
-
-  """All values less than the given value."""
-  text_lt: String
-
-  """All values less than or equal the given value."""
-  text_lte: String
-
-  """All values greater than the given value."""
-  text_gt: String
-
-  """All values greater than or equal the given value."""
-  text_gte: String
-
-  """All values containing the given string."""
-  text_contains: String
-
-  """All values not containing the given string."""
-  text_not_contains: String
-
-  """All values starting with the given string."""
-  text_starts_with: String
-
-  """All values not starting with the given string."""
-  text_not_starts_with: String
-
-  """All values ending with the given string."""
-  text_ends_with: String
-
-  """All values not ending with the given string."""
-  text_not_ends_with: String
-  updatedAt: DateTime
-
-  """All values that are not equal to given value."""
-  updatedAt_not: DateTime
-
-  """All values that are contained in given list."""
-  updatedAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  updatedAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  updatedAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  updatedAt_lte: DateTime
-
-  """All values greater than the given value."""
-  updatedAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  updatedAt_gte: DateTime
-  createdAt: DateTime
-
-  """All values that are not equal to given value."""
-  createdAt_not: DateTime
-
-  """All values that are contained in given list."""
-  createdAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  createdAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  createdAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  createdAt_lte: DateTime
-
-  """All values greater than the given value."""
-  createdAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  createdAt_gte: DateTime
-}
-
 type CommentSubscriptionPayload {
   mutation: MutationType!
   node: Comment
@@ -266,16 +131,8 @@ input CommentSubscriptionWhereInput {
 
 input CommentUpdateInput {
   text: String
-  post: PostUpdateOneRequiredWithoutCommentsInput
-  author: UserUpdateOneRequiredWithoutCommentsInput
-}
-
-input CommentUpdateManyDataInput {
-  text: String
-}
-
-input CommentUpdateManyMutationInput {
-  text: String
+  author: UserUpdateOneWithoutCommentsInput
+  post: PostUpdateOneWithoutCommentsInput
 }
 
 input CommentUpdateManyWithoutAuthorInput {
@@ -284,8 +141,6 @@ input CommentUpdateManyWithoutAuthorInput {
   disconnect: [CommentWhereUniqueInput!]
   delete: [CommentWhereUniqueInput!]
   update: [CommentUpdateWithWhereUniqueWithoutAuthorInput!]
-  updateMany: [CommentUpdateManyWithWhereNestedInput!]
-  deleteMany: [CommentScalarWhereInput!]
   upsert: [CommentUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
@@ -295,24 +150,17 @@ input CommentUpdateManyWithoutPostInput {
   disconnect: [CommentWhereUniqueInput!]
   delete: [CommentWhereUniqueInput!]
   update: [CommentUpdateWithWhereUniqueWithoutPostInput!]
-  updateMany: [CommentUpdateManyWithWhereNestedInput!]
-  deleteMany: [CommentScalarWhereInput!]
   upsert: [CommentUpsertWithWhereUniqueWithoutPostInput!]
-}
-
-input CommentUpdateManyWithWhereNestedInput {
-  where: CommentScalarWhereInput!
-  data: CommentUpdateManyDataInput!
 }
 
 input CommentUpdateWithoutAuthorDataInput {
   text: String
-  post: PostUpdateOneRequiredWithoutCommentsInput
+  post: PostUpdateOneWithoutCommentsInput
 }
 
 input CommentUpdateWithoutPostDataInput {
   text: String
-  author: UserUpdateOneRequiredWithoutCommentsInput
+  author: UserUpdateOneWithoutCommentsInput
 }
 
 input CommentUpdateWithWhereUniqueWithoutAuthorInput {
@@ -470,8 +318,8 @@ input CommentWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
-  post: PostWhereInput
   author: UserWhereInput
+  post: PostWhereInput
 }
 
 input CommentWhereUniqueInput {
@@ -479,9 +327,6 @@ input CommentWhereUniqueInput {
 }
 
 scalar DateTime
-
-"""Raw JSON value"""
-scalar Json
 
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
@@ -502,13 +347,12 @@ type Mutation {
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
-  updateManyComments(data: CommentUpdateManyMutationInput!, where: CommentWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
+  updateManyComments(data: CommentUpdateInput!, where: CommentWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyComments(where: CommentWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
 enum MutationType {
@@ -543,7 +387,7 @@ type Post implements Node {
   title: String!
   body: String!
   published: Boolean!
-  author: User!
+  author(where: UserWhereInput): User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
   updatedAt: DateTime!
   createdAt: DateTime!
@@ -624,185 +468,6 @@ type PostPreviousValues {
   createdAt: DateTime!
 }
 
-input PostScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [PostScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [PostScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [PostScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  title: String
-
-  """All values that are not equal to given value."""
-  title_not: String
-
-  """All values that are contained in given list."""
-  title_in: [String!]
-
-  """All values that are not contained in given list."""
-  title_not_in: [String!]
-
-  """All values less than the given value."""
-  title_lt: String
-
-  """All values less than or equal the given value."""
-  title_lte: String
-
-  """All values greater than the given value."""
-  title_gt: String
-
-  """All values greater than or equal the given value."""
-  title_gte: String
-
-  """All values containing the given string."""
-  title_contains: String
-
-  """All values not containing the given string."""
-  title_not_contains: String
-
-  """All values starting with the given string."""
-  title_starts_with: String
-
-  """All values not starting with the given string."""
-  title_not_starts_with: String
-
-  """All values ending with the given string."""
-  title_ends_with: String
-
-  """All values not ending with the given string."""
-  title_not_ends_with: String
-  body: String
-
-  """All values that are not equal to given value."""
-  body_not: String
-
-  """All values that are contained in given list."""
-  body_in: [String!]
-
-  """All values that are not contained in given list."""
-  body_not_in: [String!]
-
-  """All values less than the given value."""
-  body_lt: String
-
-  """All values less than or equal the given value."""
-  body_lte: String
-
-  """All values greater than the given value."""
-  body_gt: String
-
-  """All values greater than or equal the given value."""
-  body_gte: String
-
-  """All values containing the given string."""
-  body_contains: String
-
-  """All values not containing the given string."""
-  body_not_contains: String
-
-  """All values starting with the given string."""
-  body_starts_with: String
-
-  """All values not starting with the given string."""
-  body_not_starts_with: String
-
-  """All values ending with the given string."""
-  body_ends_with: String
-
-  """All values not ending with the given string."""
-  body_not_ends_with: String
-  published: Boolean
-
-  """All values that are not equal to given value."""
-  published_not: Boolean
-  updatedAt: DateTime
-
-  """All values that are not equal to given value."""
-  updatedAt_not: DateTime
-
-  """All values that are contained in given list."""
-  updatedAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  updatedAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  updatedAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  updatedAt_lte: DateTime
-
-  """All values greater than the given value."""
-  updatedAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  updatedAt_gte: DateTime
-  createdAt: DateTime
-
-  """All values that are not equal to given value."""
-  createdAt_not: DateTime
-
-  """All values that are contained in given list."""
-  createdAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  createdAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  createdAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  createdAt_lte: DateTime
-
-  """All values greater than the given value."""
-  createdAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  createdAt_gte: DateTime
-}
-
 type PostSubscriptionPayload {
   mutation: MutationType!
   node: Post
@@ -846,20 +511,8 @@ input PostUpdateInput {
   title: String
   body: String
   published: Boolean
-  author: UserUpdateOneRequiredWithoutPostsInput
+  author: UserUpdateOneWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
-}
-
-input PostUpdateManyDataInput {
-  title: String
-  body: String
-  published: Boolean
-}
-
-input PostUpdateManyMutationInput {
-  title: String
-  body: String
-  published: Boolean
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -868,19 +521,13 @@ input PostUpdateManyWithoutAuthorInput {
   disconnect: [PostWhereUniqueInput!]
   delete: [PostWhereUniqueInput!]
   update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
-  updateMany: [PostUpdateManyWithWhereNestedInput!]
-  deleteMany: [PostScalarWhereInput!]
   upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
-input PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput!
-  data: PostUpdateManyDataInput!
-}
-
-input PostUpdateOneRequiredWithoutCommentsInput {
+input PostUpdateOneWithoutCommentsInput {
   create: PostCreateWithoutCommentsInput
   connect: PostWhereUniqueInput
+  delete: Boolean
   update: PostUpdateWithoutCommentsDataInput
   upsert: PostUpsertWithoutCommentsInput
 }
@@ -896,7 +543,7 @@ input PostUpdateWithoutCommentsDataInput {
   title: String
   body: String
   published: Boolean
-  author: UserUpdateOneRequiredWithoutPostsInput
+  author: UserUpdateOneWithoutPostsInput
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -1102,10 +749,6 @@ input PostWhereUniqueInput {
   id: ID
 }
 
-enum PrismaDatabase {
-  default
-}
-
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
@@ -1263,22 +906,18 @@ input UserUpdateInput {
   comments: CommentUpdateManyWithoutAuthorInput
 }
 
-input UserUpdateManyMutationInput {
-  name: String
-  email: String
-  password: String
-}
-
-input UserUpdateOneRequiredWithoutCommentsInput {
+input UserUpdateOneWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput
   connect: UserWhereUniqueInput
+  delete: Boolean
   update: UserUpdateWithoutCommentsDataInput
   upsert: UserUpsertWithoutCommentsInput
 }
 
-input UserUpdateOneRequiredWithoutPostsInput {
+input UserUpdateOneWithoutPostsInput {
   create: UserCreateWithoutPostsInput
   connect: UserWhereUniqueInput
+  delete: Boolean
   update: UserUpdateWithoutPostsDataInput
   upsert: UserUpsertWithoutPostsInput
 }

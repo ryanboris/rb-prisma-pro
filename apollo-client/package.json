@@ -1,19 +1,18 @@
 {
-    "name": "apollo-client",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "parcel src/index.html"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "babel-core": "^6.26.3",
-        "parcel-bundler": "^1.11.0"
-    },
-    "dependencies": {
-        "apollo-boost": "^0.1.23",
-        "graphql": "^14.0.2"
-    }
+  "name": "apollo-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.9.7"
+  },
+  "dependencies": {
+    "apollo-boost": "^0.1.14",
+    "graphql": "^14.0.2"
+  }
 }
